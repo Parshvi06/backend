@@ -7,6 +7,7 @@ const app = express();             //initializing express
 const port = 5000;
     
 //middleware
+app.use(express.json());
 app.use('/user',UserRouter);
 app.use('/product',ProductRouter);
 
