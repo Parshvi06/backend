@@ -22,7 +22,17 @@ router.post('/add',(req,res)=>{
 
 
 router.get('/getall',(req,res)=>{
-    res.send('Response from product getall');
+    Model.find()
+    .then((result) => {
+        res.status(200).json(result);
+        
+    }).catch((err) => {
+        console.log(err);
+        
+        res.status(500).json(err);
+        
+    });
+
 });
 
 
@@ -42,17 +52,44 @@ router.get('/getbycategory/:category',(req,res)=>{
 
 });
 router.get('/getbyid/:id',(req,res)=>{
-    console.log(req.params.id);
-    
-    res.send('Response from product getbyid');
+    Model.findById(req.params.id)
+
+    .then((result) => {
+        res.status(200).json(result);kk
+        
+    }).catch((err) => {
+        console.log(err);
+        
+        res.status(500).json(err);
+        
+    });
 });
 
-router.get('/update',(req,res)=>{
-    res.send('Response from product update');
+router.put('/update/:id',(req,res)=>{
+    Model.findByIdAndUpdate(req.params.id,req.body,{new:true})
+    .then((result) => {
+        res.status(200).json(result);
+        
+    }).catch((err) => {
+        console.log(err);
+        
+        res.status(500).json(err);
+        
+    });
+
 });
 
-router.get('/delete',(req,res)=>{
-    res.send('Response from product delete');
+router.delete('/delete/:id',(req,res)=>{
+    Model.findByIdAndDelete(req.params.id)
+    .then((result) => {
+        res.status(200).json(result);
+        
+    }).catch((err) => {
+        console.log(err);
+        
+        res.status(500).json(err);
+        
+    });
 });
 
 module.exports = router;
