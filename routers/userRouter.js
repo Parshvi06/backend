@@ -1,6 +1,8 @@
 const express = require('express');
 const Model = require('../models/userModel');
 
+const jwt=require('jsonwebtoken');
+
 
 const router = express.Router();
 
@@ -122,5 +124,27 @@ router.delete('/delete/:id',(req,res)=>{
      
 
 });
+
+
+//for jwt authentication
+router.post('/authenticate',(req,res)=>{
+    Model.findOne(req.body)
+    .then((result) => {
+        if(result){
+            //generate token
+        }
+        else{
+            res.status(401).json({message:'Invalid credentials'})
+        }
+        
+        
+        
+    }).catch((err) => {
+        console.log(err);
+        res.status(500).json(err);
+        
+        
+    });
+})
 
 module.exports = router;
