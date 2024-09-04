@@ -131,7 +131,17 @@ router.post('/authenticate',(req,res)=>{
     Model.findOne(req.body)
     .then((result) => {
         if(result){
+
+            const{_id,name,email,password}=result;
+
+            const payload={_id,name,email,password};
+
             //generate token
+            jwt.sign(
+                 payload,
+                 ''  
+
+            )
         }
         else{
             res.status(401).json({message:'Invalid credentials'})
