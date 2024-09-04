@@ -2,6 +2,8 @@ const express = require('express');
 const Model = require('../models/userModel');
 
 const jwt=require('jsonwebtoken');
+const verifyToken = require('./verifyToken');
+require('dotenv').config();
 
 
 const router = express.Router();
@@ -29,7 +31,7 @@ router.post('/add',(req,res)=>{
 
 });
 
-router.get('/getall',(req,res)=>{
+router.get('/getall',verifyToken, (req,res)=>{
     
     Model.find()
     .then((result) => {
@@ -139,7 +141,19 @@ router.post('/authenticate',(req,res)=>{
             //generate token
             jwt.sign(
                  payload,
-                 ''  
+                 process.env.JWT_SECRET,
+                 {expiresIn:3600},
+                 (err,token) => {
+                    if(err){
+                        console.log(err);
+                        res.status(500).json(err);
+                        
+                    }
+                    else{
+                        res.status(200).json({token});
+                    }
+
+                 }
 
             )
         }
